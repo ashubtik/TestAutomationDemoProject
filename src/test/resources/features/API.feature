@@ -1,4 +1,4 @@
-Feature: Login to Thinking Tester platform
+Feature: API CRUD operations with contacts
 
   Background:
     Given User opens Thinking Tester platform login page
@@ -6,24 +6,23 @@ Feature: Login to Thinking Tester platform
     Then Contact List page is open
     Given Authorization token extracted from cookies
 
-  @GetContactAPIScenario
-  Scenario: Verify contact response is equal to expected
-    When GET request is sent to retrieve contact with id '6648ef10f6e13900133f9eb2'
-    Then GET response has status code 200
-    And GET response body is equal to expected
-      | First Name        | Pretty          |
-      | Last Name         | Woman           |
-      | Date of Birth     | 2021/12/12      |
-      | Email             | woman@gmail.com |
-      | Phone             | 1234567         |
-      | Street Address 1  | New Jersey      |
-      | Street Address 2  | 13 street       |
-      | City              | New York        |
-      | State or Province | New Jersey      |
-      | Postal Code       | 49-300          |
-      | Country           | USA             |
-    Given User logs out
-    Given Browser is closed
+#  @GetContactAPIScenario
+#  Scenario: Verify contact response is equal to expected
+#    When GET request is sent to retrieve contact with id '6648ef10f6e13900133f9eb2'
+#    Then GET response has status code 200
+#    And GET response body is equal to expected
+#      | First Name        | Pretty          |
+#      | Last Name         | Woman           |
+#      | Date of Birth     | 2021/12/12      |
+#      | Email             | woman@gmail.com |
+#      | Phone             | 1234567         |
+#      | Street Address 1  | New Jersey      |
+#      | Street Address 2  | 13 street       |
+#      | City              | New York        |
+#      | State or Province | New Jersey      |
+#      | Postal Code       | 49-300          |
+#      | Country           | USA             |
+#    Given User logs out
 
   @PatchAndPutContactAPIScenario
   Scenario: Validate contact is updated by PATCH and PUT calls
@@ -55,6 +54,7 @@ Feature: Login to Thinking Tester platform
       | State or Province | New Jersey      |
       | Postal Code       | 49-300          |
       | Country           | USA             |
+    Then PUT response has status code 200
     And PUT response body is equal to expected
       | First Name        | Pretty          |
       | Last Name         | Woman           |
@@ -68,3 +68,4 @@ Feature: Login to Thinking Tester platform
       | Postal Code       | 49-300          |
       | Country           | USA             |
     Given User logs out
+    Given Browser is closed

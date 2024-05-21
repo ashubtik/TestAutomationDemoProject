@@ -15,7 +15,11 @@ public class ContactApiClient extends BaseApiClient {
         return get(CONTACTS_ENDPOINT, id);
     }
 
-    public Response patchContactById(ContactDto contact, String id) {
-        return patch(contact, CONTACTS_ENDPOINT, id);
+    public Response patchContactById(ContactDto contactDto, String id) {
+        return patch(contactDto, CONTACTS_ENDPOINT, id);
+    }
+
+    public Response putContactById(ContactDto contactDto, String id) {
+        return put(contactDto, CONTACTS_ENDPOINT, id);
     }
 }

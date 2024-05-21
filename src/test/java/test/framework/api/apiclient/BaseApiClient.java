@@ -46,12 +46,12 @@ public class BaseApiClient {
                 .response();
     }
 
-    protected Response put(String endpoint, Object body) {
+    protected Response put(Object body, String endpoint, Object... pathParams) {
         return given()
                 .spec(getRequestSpec())
                 .body(body)
                 .when()
-                .put(endpoint)
+                .put(endpoint, pathParams)
                 .then()
                 .spec(getResponseSpec())
                 .extract()

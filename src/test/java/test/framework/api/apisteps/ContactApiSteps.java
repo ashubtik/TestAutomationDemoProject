@@ -25,4 +25,9 @@ public class ContactApiSteps extends BaseApiSteps {
         log.info("Sending PATCH request to partially update contact with id: " + contactId);
         return getContactApiClient(token).patchContactById(contactDto, contactId);
     }
+
+    public Response putContact(String contactId, String token, ContactDto contactDto) {
+        log.info("Sending PUT request to update contact with id: " + contactId);
+        return getContactApiClient(token).putContactById(contactDto, contactId);
+    }
 }

@@ -19,7 +19,8 @@ public class APIDefinition extends BasicSteps {
     private String token;
     private Response getContactResponse;
     private Response patchContactResponse;
-    
+    private Response putContactResponse;
+
     @ParameterType("GET|DELETE|PATCH|POST|PUT")
     public Method method(String method) {
         return Method.valueOf(method);
@@ -41,8 +42,8 @@ public class APIDefinition extends BasicSteps {
         switch (method) {
             case GET -> actualStatusCode = getContactResponse.getStatusCode();
             case PUT -> actualStatusCode = 1;
-            case POST -> actualStatusCode = patchContactResponse.getStatusCode();
-            case PATCH -> actualStatusCode = 2;
+            case POST -> actualStatusCode = 2;
+            case PATCH -> actualStatusCode = patchContactResponse.getStatusCode();
             case DELETE -> actualStatusCode = 3;
         }
         assertEquals(actualStatusCode, expectedStatusCode, "Actual status code - " + actualStatusCode);
@@ -89,6 +90,8 @@ public class APIDefinition extends BasicSteps {
     }
 
     @When("PUT request is sent to update contact with id {string}")
-    public void putContactWithIdEfFEFEb(Method method, String contactId) {
+    public void putContact(String contactId, DataTable table) {
+        var contactBody = createContactDto(table.asMap());
+        putContactResponse = getContactApiSteps().putContact(contactId, token, contactBody);
     }
 }

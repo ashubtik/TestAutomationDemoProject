@@ -1,2 +1,4 @@
-# TestFramework
-Java - Gradle - TestNG - Cucumber - Selenium - RestAssured
+# Test Automation Demo project
+Java - Gradle - TestNG - Cucumber - RestAssured - Selenium WebDriver
+
+
