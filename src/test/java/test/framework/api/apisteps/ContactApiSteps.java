@@ -3,6 +3,7 @@ package test.framework.api.apisteps;
 import io.restassured.response.Response;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import test.framework.api.models.ContactDto;
 
 @Log4j2 @NoArgsConstructor
 public class ContactApiSteps extends BaseApiSteps {
@@ -15,8 +16,13 @@ public class ContactApiSteps extends BaseApiSteps {
         return instance;
     }
 
-    public Response getContactResponse(String contactId, String token) {
-        log.info("Sending GET request to retrieve contact data by id: " + contactId);
+    public Response getContact(String contactId, String token) {
+        log.info("Sending GET request to retrieve contact data with id: " + contactId);
         return getContactApiClient(token).getContactById(contactId);
+    }
+
+    public Response patchContact(String contactId, String token, ContactDto contactDto) {
+        log.info("Sending PATCH request to partially update contact with id: " + contactId);
+        return getContactApiClient(token).patchContactById(contactDto, contactId);
     }
 }

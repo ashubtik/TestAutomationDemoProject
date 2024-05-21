@@ -1,2 +1,2 @@
 # TestFramework
-Java - Gradle - TestNG - Cucumber - Selenuim - RestAssured
+Java - Gradle - TestNG - Cucumber - Selenium - RestAssured
