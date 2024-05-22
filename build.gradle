@@ -17,6 +17,7 @@ dependencies {
     implementation 'org.seleniumhq.selenium:selenium-java:2.41.0'
     implementation 'io.github.bonigarcia:webdrivermanager:5.7.0'
     implementation 'io.rest-assured:rest-assured:5.4.0'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
     testCompileOnly 'org.projectlombok:lombok:1.18.32'

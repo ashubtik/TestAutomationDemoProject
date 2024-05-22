@@ -41,7 +41,7 @@ public class APIDefinition extends BasicSteps {
         int actualStatusCode = 0;
         switch (method) {
             case GET -> actualStatusCode = getContactResponse.getStatusCode();
-            case PUT -> actualStatusCode = 1;
+            case PUT -> actualStatusCode = putContactResponse.getStatusCode();
             case POST -> actualStatusCode = 2;
             case PATCH -> actualStatusCode = patchContactResponse.getStatusCode();
             case DELETE -> actualStatusCode = 3;
@@ -55,37 +55,36 @@ public class APIDefinition extends BasicSteps {
         ContactDto actualContactBody = null;
         switch (method) {
             case GET -> actualContactBody = getContactResponse.as(ContactDto.class);
-            case PUT -> {}
-            case POST -> actualContactBody = patchContactResponse.as(ContactDto.class);
-            case PATCH -> {}
+            case PUT -> actualContactBody = putContactResponse.as(ContactDto.class);
+            case POST -> {}
+            case PATCH -> actualContactBody = patchContactResponse.as(ContactDto.class);
             case DELETE -> {}
         }
         assertEquals(actualContactBody, expectedContactBody, "Actual response body is different");
     }
 
     private ContactDto createContactDto(Map<String, String> contactData) {
-        return ContactDto.builder()
-                .firstName(contactData.get("First Name"))
-                .lastName(contactData.get("Last Name"))
-                .birthdate(contactData.get("Date of Birth"))
-                .email(contactData.get("Email"))
-                .phone(contactData.get("Phone"))
-                .street1(contactData.get("Street Address 1"))
-                .street2(contactData.get("Street Address 2"))
-                .city(contactData.get("City"))
-                .stateProvince(contactData.get("State or Province"))
-                .postalCode(contactData.get("Postal Code"))
-                .country(contactData.get("Country"))
-                .build();
+        var dto = new ContactDto();
+        dto.setFirstName(contactData.get("First Name"));
+        dto.setLastName(contactData.get("Last Name"));
+        dto.setBirthdate(contactData.get("Date of Birth"));
+        dto.setEmail(contactData.get("Email"));
+        dto.setPhone(contactData.get("Phone"));
+        dto.setStreet1(contactData.get("Street Address 1"));
+        dto.setStreet2(contactData.get("Street Address 2"));
+        dto.setCity(contactData.get("City"));
+        dto.setStateProvince(contactData.get("State or Province"));
+        dto.setPostalCode(contactData.get("Postal Code"));
+        dto.setCountry(contactData.get("Country"));
+        return dto;
     }
 
     @When("PATCH request is sent to partially update contact with id {string}")
     public void patchContact(String contactId, DataTable table) {
         var data = table.asMap();
-        var patchDto = ContactDto.builder()
-                .country(data.get("Country"))
-                .city(data.get("City"))
-                .build();
+        var patchDto = new ContactDto();
+        patchDto.setCountry(data.get("Country"));
+        patchDto.setCity(data.get("City"));
         patchContactResponse = getContactApiSteps().patchContact(contactId, token, patchDto);
     }
 
