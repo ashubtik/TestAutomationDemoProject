@@ -2,8 +2,6 @@ package test.framework.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +22,7 @@ public class ContactDto {
     private String stateProvince;
     private String postalCode;
     private String country;
+    private String _id;
 
     @Override
     public boolean equals(Object o) {

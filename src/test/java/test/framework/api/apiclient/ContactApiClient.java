@@ -6,6 +6,7 @@ import test.framework.api.models.ContactDto;
 
 public class ContactApiClient extends BaseApiClient {
     private static final String CONTACTS_ENDPOINT = "contacts/{id}";
+    private static final String CONTACT_ENDPOINT = "contacts/";
 
     public ContactApiClient(Authorization authorization) {
         super(authorization);
@@ -21,5 +22,9 @@ public class ContactApiClient extends BaseApiClient {
 
     public Response putContactById(ContactDto contactDto, String id) {
         return put(contactDto, CONTACTS_ENDPOINT, id);
+    }
+
+    public Response postContact(ContactDto contactBody) {
+        return post(CONTACT_ENDPOINT, contactBody);
     }
 }

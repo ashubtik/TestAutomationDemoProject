@@ -30,4 +30,9 @@ public class ContactApiSteps extends BaseApiSteps {
         log.info("Sending PUT request to update contact with id: " + contactId);
         return getContactApiClient(token).putContactById(contactDto, contactId);
     }
+
+    public Response postContact(String token, ContactDto contactBody) {
+        log.info("Sending POST request to create new contact");
+        return getContactApiClient(token).postContact(contactBody);
+    }
 }

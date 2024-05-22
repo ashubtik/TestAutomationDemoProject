@@ -8,10 +8,10 @@ import java.nio.file.Paths;
 
 @Slf4j
 public class JsonUtils {
-    private static final String JSON_PATH = "src/test/resources/testdata/contact.json";
+    private static final String JSON_PATH = "src/test/resources/testdata/";
 
     @SneakyThrows
-    public static <T> T deserializeToClass(Class<T> classType) {
-        return new ObjectMapper().readValue(Files.readAllBytes(Paths.get(JSON_PATH)), classType);
+    public static <T> T deserializeFromJsonFile(String filename, Class<T> classType) {
+        return new ObjectMapper().readValue(Files.readAllBytes(Paths.get(JSON_PATH.concat(filename))), classType);
     }
 }

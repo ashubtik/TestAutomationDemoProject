@@ -9,6 +9,8 @@ import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import test.framework.api.models.ContactDto;
 import test.framework.constants.Method;
+import test.framework.utilities.DtoUtils;
+import test.framework.utilities.JsonUtils;
 
 import java.util.Map;
 
@@ -19,7 +21,9 @@ public class APIDefinition extends BasicSteps {
     private String token;
     private Response getContactResponse;
     private Response patchContactResponse;
+    private Response postContactResponse;
     private Response putContactResponse;
+    private ContactDto deserializedFromJson;
 
     @ParameterType("GET|DELETE|PATCH|POST|PUT")
     public Method method(String method) {
@@ -42,7 +46,7 @@ public class APIDefinition extends BasicSteps {
         switch (method) {
             case GET -> actualStatusCode = getContactResponse.getStatusCode();
             case PUT -> actualStatusCode = putContactResponse.getStatusCode();
-            case POST -> actualStatusCode = 2;
+            case POST -> actualStatusCode = postContactResponse.getStatusCode();
             case PATCH -> actualStatusCode = patchContactResponse.getStatusCode();
             case DELETE -> actualStatusCode = 3;
         }
@@ -51,32 +55,16 @@ public class APIDefinition extends BasicSteps {
 
     @And("{method} response body is equal to expected")
     public void verifyContactResponseBody(Method method, DataTable table) {
-        var expectedContactBody = createContactDto(table.asMap());
+        var expectedContactBody = DtoUtils.createContactDto(table.asMap());
         ContactDto actualContactBody = null;
         switch (method) {
             case GET -> actualContactBody = getContactResponse.as(ContactDto.class);
             case PUT -> actualContactBody = putContactResponse.as(ContactDto.class);
-            case POST -> {}
+            case POST -> actualContactBody = postContactResponse.as(ContactDto.class);
             case PATCH -> actualContactBody = patchContactResponse.as(ContactDto.class);
             case DELETE -> {}
         }
         assertEquals(actualContactBody, expectedContactBody, "Actual response body is different");
-    }
-
-    private ContactDto createContactDto(Map<String, String> contactData) {
-        var dto = new ContactDto();
-        dto.setFirstName(contactData.get("First Name"));
-        dto.setLastName(contactData.get("Last Name"));
-        dto.setBirthdate(contactData.get("Date of Birth"));
-        dto.setEmail(contactData.get("Email"));
-        dto.setPhone(contactData.get("Phone"));
-        dto.setStreet1(contactData.get("Street Address 1"));
-        dto.setStreet2(contactData.get("Street Address 2"));
-        dto.setCity(contactData.get("City"));
-        dto.setStateProvince(contactData.get("State or Province"));
-        dto.setPostalCode(contactData.get("Postal Code"));
-        dto.setCountry(contactData.get("Country"));
-        return dto;
     }
 
     @When("PATCH request is sent to partially update contact with id {string}")
@@ -90,7 +78,19 @@ public class APIDefinition extends BasicSteps {
 
     @When("PUT request is sent to update contact with id {string}")
     public void putContact(String contactId, DataTable table) {
-        var contactBody = createContactDto(table.asMap());
+        var contactBody = DtoUtils.createContactDto(table.asMap());
         putContactResponse = getContactApiSteps().putContact(contactId, token, contactBody);
+    }
+
+    @When("POST request is sent to create a new contact from JSON file {string}")
+    public void postContactFromJSON(String fileName) {
+        deserializedFromJson = JsonUtils.deserializeFromJsonFile(fileName, ContactDto.class);
+        postContactResponse = getContactApiSteps().postContact(token, deserializedFromJson);
+    }
+
+    @And("POST response body is equal to the contact from JSON file")
+    public void verifyPostResponseBodyIsEqualToJSONContact() {
+        assertEquals(postContactResponse.as(ContactDto.class), deserializedFromJson,
+                "Actual response body is different from JSON");
     }
 }
