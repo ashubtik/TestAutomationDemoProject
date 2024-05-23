@@ -18,6 +18,8 @@ dependencies {
     implementation 'io.github.bonigarcia:webdrivermanager:5.7.0'
     implementation 'io.rest-assured:rest-assured:5.4.0'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'tech.grasshopper:extentreports-cucumber7-adapter:1.7.0'
+    implementation 'com.aventstack:extentreports:5.0.9'
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
     testCompileOnly 'org.projectlombok:lombok:1.18.32'
@@ -41,6 +43,8 @@ task cucumber() {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.test.output
             args = ['--plugin', 'pretty',
+                    '--plugin', 'io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm',
+                    '--plugin', 'com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:',
                     '--glue', 'test.framework.definitions', 'src/test/resources/features']
         }
     }
