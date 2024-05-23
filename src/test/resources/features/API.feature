@@ -74,5 +74,9 @@ Feature: API CRUD operations with contacts
     When POST request is sent to create a new contact from JSON file 'contact.json'
     Then POST response has status code 201
     And POST response body is equal to the contact from JSON file
+    When DELETE request is sent to delete created contact
+    Then DELETE response has status code 200
+    When GET request is sent to retrieve contact with id 'deleted'
+    Then GET response has status code 404
     Given User logs out
     Given Browser is closed

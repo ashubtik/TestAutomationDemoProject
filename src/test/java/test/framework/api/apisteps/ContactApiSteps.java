@@ -35,4 +35,9 @@ public class ContactApiSteps extends BaseApiSteps {
         log.info("Sending POST request to create new contact");
         return getContactApiClient(token).postContact(contactBody);
     }
+
+    public Response deleteContact(String id, String token) {
+        log.info("Sending DELETE request to delete a contact with id: " + id);
+        return getContactApiClient(token).deleteContactById(id);
+    }
 }

@@ -12,8 +12,6 @@ import test.framework.constants.Method;
 import test.framework.utilities.DtoUtils;
 import test.framework.utilities.JsonUtils;
 
-import java.util.Map;
-
 import static org.testng.Assert.assertEquals;
 import static test.framework.api.apisteps.ContactApiSteps.getContactApiSteps;
 
@@ -21,6 +19,7 @@ public class APIDefinition extends BasicSteps {
     private String token;
     private Response getContactResponse;
     private Response patchContactResponse;
+    private Response deleteContactResponse;
     private Response postContactResponse;
     private Response putContactResponse;
     private ContactDto deserializedFromJson;
@@ -37,6 +36,9 @@ public class APIDefinition extends BasicSteps {
 
     @When("GET request is sent to retrieve contact with id {string}")
     public void getContactResponse(String contactId) {
+        if (contactId.equals("deleted")) {
+            contactId = postContactResponse.as(ContactDto.class).get_id();
+        }
         getContactResponse = getContactApiSteps().getContact(contactId, token);
     }
 
@@ -48,7 +50,7 @@ public class APIDefinition extends BasicSteps {
             case PUT -> actualStatusCode = putContactResponse.getStatusCode();
             case POST -> actualStatusCode = postContactResponse.getStatusCode();
             case PATCH -> actualStatusCode = patchContactResponse.getStatusCode();
-            case DELETE -> actualStatusCode = 3;
+            case DELETE -> actualStatusCode = deleteContactResponse.getStatusCode();
         }
         assertEquals(actualStatusCode, expectedStatusCode, "Actual status code - " + actualStatusCode);
     }
@@ -62,7 +64,7 @@ public class APIDefinition extends BasicSteps {
             case PUT -> actualContactBody = putContactResponse.as(ContactDto.class);
             case POST -> actualContactBody = postContactResponse.as(ContactDto.class);
             case PATCH -> actualContactBody = patchContactResponse.as(ContactDto.class);
-            case DELETE -> {}
+            case DELETE -> actualContactBody = deleteContactResponse.as(ContactDto.class);
         }
         assertEquals(actualContactBody, expectedContactBody, "Actual response body is different");
     }
@@ -92,5 +94,11 @@ public class APIDefinition extends BasicSteps {
     public void verifyPostResponseBodyIsEqualToJSONContact() {
         assertEquals(postContactResponse.as(ContactDto.class), deserializedFromJson,
                 "Actual response body is different from JSON");
+    }
+
+    @When("DELETE request is sent to delete created contact")
+    public void deleteContact() {
+        var id = postContactResponse.as(ContactDto.class).get_id();
+        deleteContactResponse = getContactApiSteps().deleteContact(id, token);
     }
 }

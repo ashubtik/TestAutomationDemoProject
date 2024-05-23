@@ -70,11 +70,11 @@ public class BaseApiClient {
                 .response();
     }
 
-    protected Response delete(String endpoint) {
+    protected Response delete(String endpoint, Object... pathParams) {
         return given()
                 .spec(getRequestSpec())
                 .when()
-                .delete(endpoint)
+                .delete(endpoint, pathParams)
                 .then()
                 .spec(getResponseSpec())
                 .extract()
