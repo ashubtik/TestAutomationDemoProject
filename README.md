@@ -13,12 +13,12 @@ This is a Demo Test Automation framework that represents API and UI auto-testing
 All the scenarios are aimed to test https://thinking-tester-contact-list.herokuapp.com/ both API and UI.
 API scenarios are implemented on https://documenter.getpostman.com/view/4012288/TzK2bEa8 documentation.
 
-The project uses the best automation practises and patterns, such as PageObject, Singleton, Factory.  
+The project uses the best coding practises (SOLID, DRY, KISS) and patterns (such as PageObject, Singleton, Factory).  
 Project structure includes modules for:
  - API functionality (containing API steps, API clients, Authorization and POJO modules)
  - Configuration and Driver management (Driver initialization, Browser factory, Setting up config data)
  - Page objects (UI methods and locators)
- - Step definitions (Cucumber regex steps implementations)
+ - Step definitions (Cucumber steps implementations)
  - Test runners (TestNG, Cucumber & Extent report plugin integration)
  - Utility module (Helper classes to read from file, deserialize JSON etc.)
  - Resources (BDD scenarios, Test data and property files)
